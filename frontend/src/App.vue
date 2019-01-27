@@ -4,11 +4,13 @@
 </div>
 </template>
 
+
 <script>
-import axios from 'axios'
+import Axios from 'axios'
 
 
-axios.defaults.baseURL='http://localhost/schoolpublish/php/public/index.php'
+
+Axios.defaults.baseURL='http://localhost/schoolpublish/php/public/index.php'
 
 export default{
   name:'app',
@@ -24,8 +26,11 @@ export default{
     }
   },
   created(){
-    console.log(this.$store.state.userToken);
-    
+    // console.og();
+    // Axios.post('').then((res)=>{
+    //   console.log(res.data);
+      
+    // })
   },
 }
 </script>

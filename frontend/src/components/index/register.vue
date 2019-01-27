@@ -54,9 +54,10 @@
   </div>
 </template>
 <script>
-import logo from './c/logo';
+import logo from './c/logo'
 import bg from '../../assets/images/login_bg.jpg'
-import Axios from 'axios';
+import Axios from 'axios'
+import crypto from 'js-sha256'
 
 export default{
   components:{
@@ -88,7 +89,7 @@ export default{
       else callback()
     }
     var checkRepeatPwd=(rule,value,callback)=>{
-      if(value!==this.password)
+      if(value!==this.userForm.password)
         callback(new Error('两次输入密码不一致'))
       else callback()
     }
@@ -148,13 +149,14 @@ export default{
           {validator:checkRepeatId,trigger:'blur'}
         ],
         pic:[
-          {required:true,message:"请上传图片"}
+          // {required:true,message:"请上传图片"}
         ]
       },
 
       locations:[],
       imageUrl: '',
       imagePosted:false,
+      processed:false
     }
   },
   methods:{
@@ -163,18 +165,30 @@ export default{
         this.locations=res.data
       })
     },
+    postData(){
+      console.log(1);
+      let data=JSON.parse(JSON.stringify(this.userForm))
+      
+      data.password=crypto.sha256(data.password)
+      data.confiPassword=""
+      Axios.post('userRegister',{'regdata':JSON.stringify(data)}).then((res)=>{
+        //TODO: add process after register
+
+        if(res.statusText==='OK')
+          this.$message.success('提交成功！')
+        else
+          this.$message.error('提交失败')
+      })
+    },
     submitForm() {
       this.$refs['userForm'].validate((valid) => {
-        if (valid&&this.imagePosted) {
-          this.$message.success('提交成功！')
-          Axios.post('userRegister',userForm).then((res)=>{
-            //TODO: add process after register
-          })
+        if (valid||this.imagePosted) {
+            this.postData()
         } else {
           this.$message.error('表单填写有误')
           return false
         }
-      });
+      })
     },
     resetForm() {
       this.$refs['userForm'].resetFields()

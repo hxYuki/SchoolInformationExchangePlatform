@@ -20,8 +20,9 @@ return [
     // ':module/:controller/:action' => ':module/:controller/:action',
     'test'=>'index/index/test',
     'fetchLocation'=>'index/system/location',
-    'checkRepetation'=>'index/user/checkRepetation',
     'imageCollect'=>'index/image/imageCollect',
+    'checkRepetation'=>'index/user/checkRepetation',
+    'userRegister'=>'index/user/register',
     '__miss__' => 'index/index/miss',
     'greet' => 'index/index/greet',
 ];

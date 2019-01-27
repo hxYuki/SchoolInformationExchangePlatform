@@ -37,15 +37,20 @@ class User extends Model
     public function register($infoList)
     {
         $salt=create_salt();
-        $pwd=hash("sha256",$infoList['user_password'].$salt);
+        $pwd=hash("sha256",$infoList['password'].$salt);
         $data=[
+            'user_id'=>$infoList['stuId'],
+            'user_realname'=>$infoList['realname'],
             'user_password'=>$pwd,
-            'user_nickname'=>$infoList['user_nickname'],
-            'user_location'=>$infoList['user_location'],
-            '_pwd_salt'=>$salt
+            'user_nickname'=>$infoList['nickname'],
+            'user_location'=>$infoList['location'],
+            'user_stuCard'=>$infoList['pic'],
+            '_pwd_salt'=>$salt,
+            'user_lastip'=>$infoList['ip'],
+
         ];
-        $this->table('dl_user')->insert($data);
-        return $this->table('dl_user')->getLastInsID();
+        $ret=$this->table('sp_user')->insert($data);
+        return $ret;
     }
     /**
      * this will check how many same names in database
