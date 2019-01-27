@@ -18,6 +18,10 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
     // ':module/:controller/:action' => ':module/:controller/:action',
+    'test'=>'index/index/test',
+    'fetchLocation'=>'index/system/location',
+    'checkRepetation'=>'index/user/checkRepetation',
+    'imageCollect'=>'index/image/imageCollect',
     '__miss__' => 'index/index/miss',
     'greet' => 'index/index/greet',
 ];

@@ -1,13 +1,13 @@
 <?php
-namespace app\Sys\model;
+namespace app\index\model;
 
 use think\Model;
 
 class Sys extends Model
 {
-    public function getSysInfo()
+    public function getLocation()
     {
-        $data=$this->table('dl_system_config')->select();
+        $data=$this->table('sp_system')->value('locations');
         return $data;
     }
     public function getOptions()

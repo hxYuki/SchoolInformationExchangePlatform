@@ -12,7 +12,7 @@
           <el-input v-model="account" placeholder="用户名"></el-input>
           <el-input v-model="password" placeholder="密码"></el-input>
           <div class="btn-container">
-            <a href="register">没有账号？注册</a>
+            <a href="/#/register">没有账号？注册</a>
             <el-button type="primary" @click="login()" class="sbmt-btn">登录</el-button>
           </div>
         </el-card>
@@ -26,15 +26,13 @@ import action from './c/action'
 import bg from '../../assets/images/login_bg.jpg'
 
 export default{
+  name:"Login",
   components:{
     logo:logo,
     action:action
   },
   data(){
     return{
-      u:{
-        token:""
-      },
       account:"",
       password:"",
       src:bg,
@@ -45,9 +43,10 @@ export default{
       this.$emit('getSrc',this.src)
     },
     login(){
-      this.u.token='yhxasdojjaosdoih'
+      let u={}
+      u.token='yhxasdojjaosdoih'
       //TODO: add login function
-      this.$store.commit('setToken',this.u)
+      this.$store.commit('setToken',u)
     }
   },
   created(){

@@ -1,13 +1,10 @@
 <?php
-namespace app\user\model;
+namespace app\index\model;
 
 use think\Model;
 use think\common;
 
-/**
- * all base users' functions
- */
-trait BaseUser
+class User extends Model
 {
     /**
      * this presents check for user logging in
@@ -56,16 +53,22 @@ trait BaseUser
      * @param string user's input name
      * @return int the number of names
      */
-    public function checkRepetition($userNickName)
+    public function checkRepeatName($userNickName)
     {
-        $data=$this->table('dl_user')->where('user_nickname',$userNickName)->count();
+        $data=$this->table('sp_user')->where('user_nickname',$userNickName)->value('user_nickname');
         return $data;
     }
-}
-
-class User extends Model implements IUser
-{
-    use BaseUser;
+    /**
+     * this will check duplicate student id in database
+     * @author ORGIN
+     * @param string user's input id
+     * @return int id, 0 for no duplication
+     */
+    public function checkRepeatId($userId)
+    {
+        $data=$this->table('sp_user')->where('user_id',$userId)->value('user_id');
+        return $data;
+    }
     /**
      * this return given user's basic infomation
      * @author ORIGIN

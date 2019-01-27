@@ -7,24 +7,47 @@
     </el-row>
     <el-row>
       <el-col :span="20" :offset="2">
-        <el-card class="form-container regi-form">
-          <el-input placeholder="用户名" v-model="nickname" clearable>*</el-input>
-          <el-input placeholder="密码" v-model="password" clearable>*</el-input>
-          <el-input placeholder="确认密码" v-model="confiPassword" clearable>*</el-input>
-          <el-radio-group v-model="location" @change="show()">
-            <el-radio :label="index" v-for="(loca,index) in locations" :key="loca">{{loca.place}}</el-radio>
-          </el-radio-group>
-          <el-input placeholder="真实姓名" v-model="realname" clearable></el-input>
-          <el-input placeholder="学号" v-model="stu_id" clearable></el-input>
-          <el-upload
-            class="upload"
-            drag
-            action="">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-          <el-button @click="register()" type="primary" class="sbmt-btn">注册</el-button>
+        <el-card class="form-container">
+          <el-form :model="userForm" :rules="rules" ref="userForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="用户名" prop="nickname">
+              <el-input v-model="userForm.nickname" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input v-model="userForm.password" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="confiPassword">
+              <el-input v-model="userForm.confiPassword" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="所在校区" prop="location">
+              <el-radio-group v-model="userForm.location">
+                <el-radio :label="loca" v-for="(loca,index) in locations" :key="index">{{loca}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="真实姓名" prop="realname">
+              <el-input v-model="userForm.realname" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="学号" prop="stuId">
+              <el-input v-model="userForm.stuId" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="校园卡正面" prop="pic" style="height:200px;">
+              <el-upload
+                v-model="userForm.pic"
+                name="stuCard"
+                class="avatar-uploader"
+                action="http://localhost/schoolpublish/php/public/index.php/imageCollect"
+                :show-file-list="false"
+                :on-success="uploadSuccess"
+                :before-upload="beforeUpload">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar" style="height:200px">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="submitForm()" type="primary" class="sbmt-btn">注册</el-button>
+              <el-button @click="resetForm()">重置</el-button>
+            </el-form-item>
+          </el-form>
         </el-card>
       </el-col>
     </el-row>
@@ -33,39 +56,182 @@
 <script>
 import logo from './c/logo';
 import bg from '../../assets/images/login_bg.jpg'
+import Axios from 'axios';
 
-export default {
+export default{
   components:{
     logo:logo,
   },
   data(){
-    return{
-      nickname:'',
-      password:'',
-      confiPassword:'',
-      location:'',
-      realname:'',
-      stu_id:'',
+    var checkName=(rule,value,callback)=>{
+      let nameReg=/^[a-zA-Z0-9_\u4e00-\u9fa5]*$/
+      if(!nameReg.test(value))
+        callback(new Error('用户名中不可以包含下划线以外的特殊字符'))
+      else callback()
+    }
+    var checkRepeatNickname=(rule,value,callback)=>{
+      let c=''
+      let data={}
+      data.checkField='nickname'
+      data.checkValue=value
+      Axios.post('checkRepetation',data).then((res)=>{
+        c=res.data
+        if(c!=='')
+          callback(new Error('用户名重复'))  //repeated
+        else callback()
+      })
+    }
+    var checkPwdStrength=(rule,value,callback)=>{
+      let allNumber=/^[0-9]*$/
+      if(allNumber.test(value))
+        callback(new Error('密码不能全为数字'))
+      else callback()
+    }
+    var checkRepeatPwd=(rule,value,callback)=>{
+      if(value!==this.password)
+        callback(new Error('两次输入密码不一致'))
+      else callback()
+    }
+    var checkId=(rule,value,callback)=>{
+      let n=/\d{10}/
+      if(!n.test(value)) callback(new Error('学号为10个数字'))
+      else callback()
+    }
+    var checkRepeatId=(rule,value,callback)=>{
+      let c=''
+      let data={}
+      data.checkField='id'
+      data.checkValue=value
+      Axios.post('checkRepetation',data).then((res)=>{
+        c=res.data
+        if(c!=='')
+          callback(new Error('用户名重复'))  //repeated
+        else callback()
+      })
+    }
 
-      locations:{
-        0:{place:'dongxiaoqu'},
-        1:{place:'beixiaoqu'},
-        2:{place:'xixiaoqu'}
+    return{
+      userForm:{
+        nickname:'',
+        password:'',
+        confiPassword:'',
+        location:'',
+        realname:'',
+        stuId:'',
+        pic:'',
+      },
+      rules:{
+        nickname:[
+          {required:true,message:"用户名不能为空",trigger:'blur'},
+          {min:3,max:16,message:"用户名必须在3~16个字符之间",trigger:'blur'},
+          {validator:checkName,trigger:'blur'},
+          {validator:checkRepeatNickname,trigger:'blur'}
+        ],
+        password:[
+          {required:true,message:"密码不能为空",trigger:'blur'},
+          {min:8,max:20,message:"密码必须在8~20个字符之间",trigger:'blur'},
+          {validator:checkPwdStrength,trigger:'blur'}
+        ],
+        confiPassword:[
+          {required:true,message:"请确认密码",trigger:'blur'},
+          {validator:checkRepeatPwd,trigger:'blur'}
+        ],
+        location:[
+          {required:true,message:"请选择校区",trigger:'blur'}
+        ],
+        realname:[
+          {required:true,message:"请输入你的名字",trigger:'blur'}
+        ],
+        stuId:[
+          {required:true,message:"请输入你的学号",trigger:'blur'},
+          {validator:checkId,trigger:'blur'},
+          {validator:checkRepeatId,trigger:'blur'}
+        ],
+        pic:[
+          {required:true,message:"请上传图片"}
+        ]
       },
 
-      msgbox:{
-        
-      }
+      locations:[],
+      imageUrl: '',
+      imagePosted:false,
     }
   },
   methods:{
-    
-  }
+    getBaseData(){
+      Axios.post('fetchLocation').then((res)=>{
+        this.locations=res.data
+      })
+    },
+    submitForm() {
+      this.$refs['userForm'].validate((valid) => {
+        if (valid&&this.imagePosted) {
+          this.$message.success('提交成功！')
+          Axios.post('userRegister',userForm).then((res)=>{
+            //TODO: add process after register
+          })
+        } else {
+          this.$message.error('表单填写有误')
+          return false
+        }
+      });
+    },
+    resetForm() {
+      this.$refs['userForm'].resetFields()
+      this.$message.info('已重置')
+    },
+    uploadSuccess(res, file) {
+      if(typeof res==='string')
+      {
+        this.$message.error(res)
+        this.imagePosted=false
+        return false
+      }
+      this.userForm.pic=res
+      this.$refs['userForm'].validateField(['pic'])
+      this.imagePosted=true
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeUpload(file) {
+      
+      const isJPG = file.type === 'image/jpeg' || file.type ==='image/png' || file.type ==='image/gif'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 jpg/gif/png 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+
+  },
+  created() {
+    this.getBaseData()
+  },
 }
 </script>
 <style>
-.regi-form input{
-  width: 70%;
+#bg.half{
+  width: 50%;
+  margin: 0 auto
 }
-#bg.half{width: 60%;}
+.avatar-uploader>div{
+  width: 70%;
+  height: 200px;
+  margin-left: 15%;
+  margin-right: 15%;
+  border: 3px #409EFF;
+  border-style: dashed;
+  border-radius: 5px;
+}
+.avatar-uploader>div>i{
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  font-size: 40px;
+  font-weight: 1000;
+  color: rgb(121, 121, 121)
+}
 </style>

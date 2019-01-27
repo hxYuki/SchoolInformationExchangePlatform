@@ -12,12 +12,12 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path:'/', component: homepage},
-    {path:'/walkaround',component: lookaround},
-    {path:'/login',component:login},
-    {path:'/register',component:register},
-    {path:'/profile',component:profile},
-    {path:'/item',component:item},
-    {path:'/putaway',component:putaway},
+    {path:'/',name:"SIP",component: homepage},
+    {path:'/walkaround',name:"Look Around",component: lookaround},
+    {path:'/login',name:"Login",component:login},
+    {path:'/register',name:"Register",component:register},
+    {path:'/profile',name:"Profile",component:profile},
+    {path:'/item',name:"Item",component:item},
+    {path:'/putaway',name:"Put Away",component:putaway},
   ]
 })

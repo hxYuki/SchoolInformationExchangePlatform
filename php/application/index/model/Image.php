@@ -2,7 +2,7 @@
 namespace app\index\model;
 use think\Model;
 
-class ImageAdd extends Model
+class Image extends Model
 {
     /**
      * this save image into database
@@ -11,14 +11,14 @@ class ImageAdd extends Model
      * @param int Image type
      * @return int Image Id
      */
-    public function NewImage($imgUrl,$type)
+    public function newImage($imgUrl,$type)
     {
         $d=[
-            'img_type'=>$type,
-            'img_url'=>$imgUrl
+            'type'=>$type,
+            'url'=>$imgUrl
         ];
-        $this->table('dl_map_image')
+        $this->table('sp_images')
             ->insert($d);
-        return $this->table('dl_map_image')->getLastInsID();
+        return $this->table('sp_images')->getLastInsID();
     }
 }

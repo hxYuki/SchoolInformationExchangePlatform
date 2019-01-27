@@ -28,20 +28,20 @@ export default{
   methods:{
     updateInfo:function(token){
       let t={}
-      t.userid1=''
-      t.username1=''
+      t.userid=''
+      t.username=''
 
       if(token!==''){
         this.loggedin=true
         //TODO: parse the token (in the following parts)
-        t.userid1='balabal'
-        t.username1='balaba'
+        t.userid='balabal'
+        t.username='balaba'
         this.user=t
       }
       else{
         this.loggedin=false
-        t.userid1=''
-        t.username1=''
+        t.userid=''
+        t.username=''
         this.user=t
       }
       return token
