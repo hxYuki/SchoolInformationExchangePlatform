@@ -23,6 +23,7 @@ return [
     'imageCollect'=>'index/image/imageCollect',
     'checkRepetation'=>'index/user/checkRepetation',
     'userRegister'=>'index/user/register',
+    'userLogin'=>'index/user/login',
     '__miss__' => 'index/index/miss',
     'greet' => 'index/index/greet',
 ];

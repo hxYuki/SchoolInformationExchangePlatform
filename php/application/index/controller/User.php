@@ -38,14 +38,30 @@ class User extends Controller
     }
     public function register()
     {
-        $str=$this->request->param('regdata');
-        if(!$str) return false;
+        $req="";$res="";
+        $req=json_decode(json_encode($this->request->param()),true);
         
-        $things=json_decode($str,true);
-        $things['ip']=$this->request->server('REMOTE_ADDR');
+        if(!$req) return "NO DATA";
+        
+        $req['ip']=$this->request->server('REMOTE_ADDR');
         // var_dump($things);exit;
-        $res=$this->model->register($things);
-
+        $res=$this->model->uRegister($req);
+        
         return $res;
+    }
+    public function login()
+    {
+        $req="";$res="";
+        $req=json_decode(json_encode($this->request->param()),true);
+
+        if(!$req) return "NO DATA";
+
+        $req['ip']=$this->request->server('REMOTE_ADDR');
+
+        $res=$this->model->uLogin($req);
+        if($res)
+            return $res;
+        else
+            return 'FAULT';
     }
 }

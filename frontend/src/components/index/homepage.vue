@@ -1,5 +1,5 @@
 <template>
-  <div id="bg" >
+  <div id="bg" class="homepage">
     <el-container>
       <el-header>
         <el-row>
@@ -134,6 +134,7 @@ export default{
       margin: 0 auto;
     }
   }
+  #bg.homepage{margin-top: 60px;}
   .el-main{
     padding: 0;
   }

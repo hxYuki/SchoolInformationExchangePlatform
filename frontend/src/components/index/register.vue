@@ -13,10 +13,10 @@
               <el-input v-model="userForm.nickname" clearable></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
-              <el-input v-model="userForm.password" clearable></el-input>
+              <el-input type="password" v-model="userForm.password" clearable></el-input>
             </el-form-item>
             <el-form-item label="确认密码" prop="confiPassword">
-              <el-input v-model="userForm.confiPassword" clearable></el-input>
+              <el-input type="password" v-model="userForm.confiPassword" clearable></el-input>
             </el-form-item>
             <el-form-item label="所在校区" prop="location">
               <el-radio-group v-model="userForm.location">
@@ -41,7 +41,6 @@
                 <img v-if="imageUrl" :src="imageUrl" class="avatar" style="height:200px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
-
             </el-form-item>
             <el-form-item>
               <el-button @click="submitForm()" type="primary" class="sbmt-btn">注册</el-button>
@@ -66,7 +65,10 @@ export default{
   data(){
     var checkName=(rule,value,callback)=>{
       let nameReg=/^[a-zA-Z0-9_\u4e00-\u9fa5]*$/
-      if(!nameReg.test(value))
+      let nameReg2=/^[0-9]*$/
+      if (nameReg2.test(value)) {
+        callback(new Error('用户名不能全为数字'))
+      }else if(!nameReg.test(value))
         callback(new Error('用户名中不可以包含下划线以外的特殊字符'))
       else callback()
     }
@@ -93,11 +95,6 @@ export default{
         callback(new Error('两次输入密码不一致'))
       else callback()
     }
-    var checkId=(rule,value,callback)=>{
-      let n=/\d{10}/
-      if(!n.test(value)) callback(new Error('学号为10个数字'))
-      else callback()
-    }
     var checkRepeatId=(rule,value,callback)=>{
       let c=''
       let data={}
@@ -106,7 +103,7 @@ export default{
       Axios.post('checkRepetation',data).then((res)=>{
         c=res.data
         if(c!=='')
-          callback(new Error('用户名重复'))  //repeated
+          callback(new Error('学号重复'))  //repeated
         else callback()
       })
     }
@@ -145,11 +142,11 @@ export default{
         ],
         stuId:[
           {required:true,message:"请输入你的学号",trigger:'blur'},
-          {validator:checkId,trigger:'blur'},
+          {min:10,max:10,message:"学号只有10位",trigger:'blur'},
           {validator:checkRepeatId,trigger:'blur'}
         ],
         pic:[
-          // {required:true,message:"请上传图片"}
+          {required:true,message:"请上传图片"}
         ]
       },
 
@@ -171,8 +168,8 @@ export default{
       
       data.password=crypto.sha256(data.password)
       data.confiPassword=""
-      Axios.post('userRegister',{'regdata':JSON.stringify(data)}).then((res)=>{
-        //TODO: add process after register
+      Axios.post('userRegister',data).then((res)=>{
+        //TODO: add process after register, auto login for user, use res to do this
 
         if(res.statusText==='OK')
           this.$message.success('提交成功！')

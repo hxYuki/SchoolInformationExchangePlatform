@@ -13,20 +13,39 @@ class User extends Model
      * @param string user's PASSWORD
      * @return boolean|string check result or resons why cannot login
      */
-    public function login($userId,$userPwd)
+    public function uLogin($list)
     {
-        $ori=$this->table('dl_user')->where('user_id',$userId)->field('user_password,_pwd_salt')->select();
+        $map=[];
+        switch ($list['type']) {
+            case 'id':
+                $map['user_id']=$list['account'];
+                break;
+            case 'name':
+                $map['user_nickname']=$list['account'];
+                break;
+        }
+        $ori=$this->table('sp_user')->where($map)->field('user_id,user_nickname,user_password,user_lastip,_pwd_salt')->find();
         if($ori)
         {
             $pwd=$ori['user_password'];
             $salt=$ori['_pwd_salt'];
-            $userPwd=hash("sha256",$userPwd.$salt);
+            $userPwd=hash("sha256",$list['password'].$salt);
             
             if($pwd==$userPwd)
-                return true;
-            else return 'wrong pwd';
+            {
+                $ipPrefix=explode('.',$list['ip']);
+                $userPwd.=$ipPrefix[0];
+                if(isset($ipPrefix[1])) $userPwd.=$ipPrefix[1];
+                if(isset($ipPrefix[2])) $userPwd.=$ipPrefix[2];
+                $hashed=\hash("sha256",$userPwd);
+                $this->table('sp_user')->where($map)->update(['user_lastip'=>$list['ip']]);
+                $userToken=$ori['user_id'].';'.$ori['user_nickname'].';'.$hashed;
+                
+                return $userToken;
+            }
         }
-        else return 'wrong id';
+        
+        return false;
     }
     /**
      * this execute process inserting new users
@@ -34,7 +53,7 @@ class User extends Model
      * @param array this should be user's input in forms
      * @return int new user's id
      */
-    public function register($infoList)
+    public function uRegister($infoList)
     {
         $salt=create_salt();
         $pwd=hash("sha256",$infoList['password'].$salt);
@@ -47,7 +66,6 @@ class User extends Model
             'user_stuCard'=>$infoList['pic'],
             '_pwd_salt'=>$salt,
             'user_lastip'=>$infoList['ip'],
-
         ];
         $ret=$this->table('sp_user')->insert($data);
         return $ret;
