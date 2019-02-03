@@ -122,7 +122,15 @@ export default{
         }
       ]
     }
-  }
+  },
+  methods: {
+    sendSrc(){
+      this.$emit('getSrc','')
+    },
+  },
+  created() {
+    this.sendSrc()
+  },
 }
 </script>
 

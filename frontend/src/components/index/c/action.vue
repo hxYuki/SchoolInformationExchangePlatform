@@ -7,7 +7,7 @@
     <template v-else>
       <el-dropdown>
           <a class="el-dropdown-link" :href="'/#/profile/'+user.userid">
-            {{user.username+'瓜皮'}}<i class="el-icon-arrow-down"></i>
+            {{user.username}}<i class="el-icon-arrow-down"></i>
           </a>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click="logout()">退出</el-dropdown-item>
@@ -33,9 +33,11 @@ export default{
 
       if(token!==''){
         this.loggedin=true
-        //TODO: parse the token (in the following parts)
-        t.userid='balabal'
-        t.username='balaba'
+        
+        let spl = token.split(';')
+
+        t.userid=spl[0]
+        t.username=spl[1]
         this.user=t
       }
       else{

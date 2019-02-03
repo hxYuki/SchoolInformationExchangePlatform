@@ -24,6 +24,7 @@ return [
     'checkRepetation'=>'index/user/checkRepetation',
     'userRegister'=>'index/user/register',
     'userLogin'=>'index/user/login',
+    'getTagSuggestion'=>'index/tags/getTags',
     '__miss__' => 'index/index/miss',
     'greet' => 'index/index/greet',
 ];

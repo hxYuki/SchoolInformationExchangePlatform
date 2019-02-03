@@ -8,7 +8,7 @@
     <el-row>
       <el-col :span="20" :offset="2">
         <el-card class="form-container">
-          <el-form :model="userForm" :rules="rules" ref="userForm" label-width="100px" class="demo-ruleForm">
+          <el-form :model="userForm" :rules="rules" ref="userForm" label-width="100px">
             <el-form-item label="用户名" prop="nickname">
               <el-input v-model="userForm.nickname" clearable></el-input>
             </el-form-item>
@@ -163,7 +163,6 @@ export default{
       })
     },
     postData(){
-      console.log(1);
       let data=JSON.parse(JSON.stringify(this.userForm))
       
       data.password=crypto.sha256(data.password)
@@ -172,7 +171,10 @@ export default{
         //TODO: add process after register, auto login for user, use res to do this
 
         if(res.statusText==='OK')
+        {
           this.$message.success('提交成功！')
+          this.$router.push({name:'Login'})
+        }
         else
           this.$message.error('提交失败')
       })
