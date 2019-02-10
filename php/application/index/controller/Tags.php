@@ -34,6 +34,19 @@ class Tags extends Controller
         $ret=mb_substr($ret,0,-1);
         return $ret;
     }
+    public function updateTags()
+    {
+        $res=0;$req='';$ret=0;
+        $req=$this->request->param('tags');
+        $req=json_decode($req,true);
+        if(!$req) return 'No data';
+        foreach ($req as $key => $value) {
+            $p=$this->model->updateNInsertTag($value);
+            $res+=$p;
+            $ret++;
+        }
+        return $res==$ret?'success':($res===0?'fault':'partly success');
+    }
     public function insertTag()
     {
         

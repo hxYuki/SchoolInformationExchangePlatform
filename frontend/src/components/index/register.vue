@@ -32,10 +32,13 @@
             <el-form-item label="校园卡正面" prop="pic" style="height:200px;">
               <el-upload
                 v-model="userForm.pic"
+                ref="imageUpload"
                 name="stuCard"
                 class="avatar-uploader"
                 action="http://localhost/schoolpublish/php/public/index.php/imageCollect"
                 :show-file-list="false"
+                :multiple="false"
+                :limit='1'
                 :on-success="uploadSuccess"
                 :before-upload="beforeUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar" style="height:200px">
@@ -167,22 +170,20 @@ export default{
       
       data.password=crypto.sha256(data.password)
       data.confiPassword=""
-      Axios.post('userRegister',data).then((res)=>{
-        //TODO: add process after register, auto login for user, use res to do this
-
-        if(res.statusText==='OK')
-        {
-          this.$message.success('提交成功！')
-          this.$router.push({name:'Login'})
-        }
-        else
-          this.$message.error('提交失败')
-      })
+      return Axios.post('userRegister',data)
     },
     submitForm() {
       this.$refs['userForm'].validate((valid) => {
         if (valid||this.imagePosted) {
-            this.postData()
+          this.postData().then((res)=>{
+            //TODO: add process after register, auto login for user, use res to do this
+            if(res.statusText==='OK'){
+              this.$message.success('提交成功！')
+              this.$router.push({name:'Login'})
+            }
+            else
+              this.$message.error('提交失败')
+          })
         } else {
           this.$message.error('表单填写有误')
           return false
@@ -204,9 +205,21 @@ export default{
       this.$refs['userForm'].validateField(['pic'])
       this.imagePosted=true
       this.imageUrl = URL.createObjectURL(file.raw);
+      
+      this.$refs['imageUpload'].clearFiles();
+    },
+    imageRemove(file,filelist){
+      let imgId=this.userForm.pic
+      this.userForm.pic=''
     },
     beforeUpload(file) {
-      
+      if(this.userForm.pic!=='')
+      { 
+        Axios.post('imageRemove',{'imgId':this.userForm.pic}).then(res=>{
+        })
+      }
+
+
       const isJPG = file.type === 'image/jpeg' || file.type ==='image/png' || file.type ==='image/gif'
       const isLt2M = file.size / 1024 / 1024 < 2
 

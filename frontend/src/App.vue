@@ -26,11 +26,12 @@ export default{
     }
   },
   created(){
-    // console.og();
-    // Axios.post('').then((res)=>{
-    //   console.log(res.data);
-      
-    // })
+    let tok=''
+    let d={}
+    if(tok=localStorage.getItem('uTssop')){
+      d.token=tok
+      this.$store.commit('setToken',d)
+    }
   },
 }
 </script>

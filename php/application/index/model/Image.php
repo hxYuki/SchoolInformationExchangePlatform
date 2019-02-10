@@ -21,4 +21,17 @@ class Image extends Model
             ->insert($d);
         return $this->table('sp_images')->getLastInsID();
     }
+    public function deleteImage($imgId)
+    {
+        return $this->table('sp_images')->where('id',$imgId)->delete();
+    }
+    public function getRepeatImageNum($imgId)
+    {
+        $imgUrl=$this->table('sp_images')->where('id',$imgId)->value('url');
+        $count=$this->table('sp_images')->where('url',$imgUrl)->count();
+
+        if($count==1)
+            return $imgUrl;
+        else return $count;
+    }
 }

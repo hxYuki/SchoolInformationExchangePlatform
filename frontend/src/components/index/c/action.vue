@@ -10,7 +10,7 @@
             {{user.username}}<i class="el-icon-arrow-down"></i>
           </a>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click="logout()">退出</el-dropdown-item>
+          <el-dropdown-item><button @click="logout">退出</button></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </template>
@@ -47,6 +47,12 @@ export default{
         this.user=t
       }
       return token
+    },
+    logout(){
+      let d={}
+      d.token=''
+      this.$store.commit('setToken',d)
+      this.$router.push('./login')
     }
   },
   computed: {

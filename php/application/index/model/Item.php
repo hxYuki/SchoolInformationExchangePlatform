@@ -68,10 +68,10 @@ class Item extends Model
             ->select();
         return $list;
     }
-    public function getList($page,$searchMethod,)
-    {
-        # code...
-    }
+    // public function getList($page,$searchMethod,)
+    // {
+    //     # code...
+    // }
     /**
      * this return specific item's information
      * @author ORIGIN
@@ -97,18 +97,18 @@ class Item extends Model
     public function putItem($infos)
     {
         $d=[
-            'item_name'=>$infos['itemName'],
-            'item_discription'=>$infos['itemDiscription'],
-            'item_seller_id'=>$infos['sellerId'],
-            'item_image'=>$infos['imageCollects'],
-            'item_tag'=>$infos['tagId'],
-            'item_price'=>$infos['price']
+            'title'=>$infos['itemName'],
+            'description'=>$infos['description'],
+            'publisher_id'=>$infos['sellerId'],
+            'images'=>$infos['imageCollects'],
+            'tags'=>$infos['tagId'],
+            'price'=>$infos['price']
         ];
 
-        $r=$this->table('dl_item')
+        $r=$this->table('sp_item')
             ->insert($d);
-        if($r)
-            return $this->table('dl_item')->getLastInsID();
+        if($r==1)
+            return $this->table('sp_item')->getLastInsID();
         else
             return 'ERR';
     }

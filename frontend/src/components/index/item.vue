@@ -36,7 +36,7 @@
       <h3 class="rate">
         <div>
           <el-rate
-            v-model="seller"
+            v-model="rate"
             disabled
             show-score
             text-color="#ff9900"
@@ -64,7 +64,9 @@ export default {
   },
   data(){
     return{
-
+      item:{},
+      seller:'',
+      rate:0,
     }
   }
 }

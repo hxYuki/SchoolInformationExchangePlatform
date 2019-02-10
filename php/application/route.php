@@ -21,10 +21,13 @@ return [
     'test'=>'index/index/test',
     'fetchLocation'=>'index/system/location',
     'imageCollect'=>'index/image/imageCollect',
+    'imageRemove'=>'index/image/imageRemove',
     'checkRepetation'=>'index/user/checkRepetation',
     'userRegister'=>'index/user/register',
     'userLogin'=>'index/user/login',
     'getTagSuggestion'=>'index/tags/getTags',
+    'updateTagUse'=>'index/tags/updateTags',
+    'putItem'=>'index/item/putItem',
     '__miss__' => 'index/index/miss',
     'greet' => 'index/index/greet',
 ];
