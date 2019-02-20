@@ -6,7 +6,7 @@
       </el-col>
       <el-col :span="4" :offset="12">
         <!-- <action></action> -->
-        <span :hidden="true">{{asd}}</span>
+        <!-- <span :hidden="true">{{asd}}</span> -->
       </el-col>
     </el-row>
     <div class="item-form">
@@ -76,8 +76,8 @@
           </div>
         </div>
         <el-form-item>
-          <el-button @click="cancel">取消</el-button>
-          <el-button type="primary" @click="Submit">发布</el-button>
+          <el-button @click="cancel()">取消</el-button>
+          <el-button type="primary" @click="Submit()">发布</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -105,7 +105,10 @@ export default{
 
     var tagsValidator=(rule,value,callback)=>{
       if(value.length<3) callback(new Error('请至少选择三个标签'))
-      else callback()
+      else {
+        this.updateTags()
+        callback()
+      }
     }
 
     var priceValidator=(rule,value,callback)=>{
@@ -220,37 +223,35 @@ export default{
     Submit(){
       // this.$refs.itempic.submit()
       let d=''
-
-      this.updateTags().then(()=>{
-          this.$refs.itemForm.validate().then((valid) => {
-            if (valid) {
-              this.postData().then(res=>{
-                if(res.status!==200){
-                  this.$message.error('网络错误')
-                  return false
-                }
-                d=res.data
-                if(d==='ERR'){
-                  this.$message.error('发布错误')
-                  return false
-                }
-                this.$message.success('发布成功')
-
-                this.flag=d
-                console.log(this.asd);
-                return false
-                return true
-              })
-            } else {
-              this.$message.error('表单填写有误')
+// this.$router.push('/')
+      
+      this.$refs.itemForm.validate((valid) => {
+        if (valid) {
+          this.postData().then(res=>{
+            if(res.status!==200){
+              this.$message.error('网络错误')
               return false
+            }else{
+              d=res.data
+              if(d==='ERR'){
+                this.$message.error('发布错误')
+                return false
+              }else{
+                this.$message.success('发布成功')
+                window.location.hash="#/item?id="+d
+              }
             }
+            // return true
           })
-        })
+        } else {
+          this.$message.error('表单填写有误')
+          return false
+        }
+      })
+        
     },
     postData(){
       let data=JSON.stringify(this.itemForm)
-
       return Axios.post('putItem',{'item':data})
     }
   },
@@ -273,11 +274,11 @@ export default{
     },
     usTok:function(){return this.$store.state.userToken},
 
-    asd:function(){
-      if(this.flag!=='')
-        this.$router.push({path:'/item',query:{id:this.flag.toString()}})
-      return this.flag
-    }
+    // asd:function(){
+    //   if(this.flag!=='')
+    //     this.$router.push({path:'/item'})
+    //   return this.flag
+    // }
   },
   watch: {
     
