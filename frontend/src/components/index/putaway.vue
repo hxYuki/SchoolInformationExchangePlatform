@@ -273,16 +273,8 @@ export default{
       return this.isSale?'描述':'内容'
     },
     usTok:function(){return this.$store.state.userToken},
-
-    // asd:function(){
-    //   if(this.flag!=='')
-    //     this.$router.push({path:'/item'})
-    //   return this.flag
-    // }
   },
   watch: {
-    
-    
   },
 }
 </script>
