@@ -92,28 +92,42 @@ class User extends Model
         $data=$this->table('sp_user')->where('user_id',$userId)->value('user_id');
         return $data;
     }
+
+
+    public function getUserAsSeller($userId)
+    {
+        $map['user_id']=$userId;
+        $field=['user_id','user_nickname','user_icon','user_marks','user_comments','is_banned'];
+
+        $data=$this->table('sp_user')->where($map)->field($field)->find();
+
+        return $data;
+    }
+
+
+
     /**
      * this return given user's basic infomation
      * @author ORIGIN
      * @param int user's ID
      * @return array user's basic infomation
      */
-    public function getUserInfo($userId)
-    {
-        $map['user_id']=$userId;
-        $condition=['dl_seller','dl_seller.seller_id=user_id'];
-        $field=[
-            'user_id',
-            'user_nickname',
-            'user_location',
-            'seller_history',
-            'user_is_seller',
-            'user_is_verified',
-            '_hide_detail'
-        ];
-        $data=$this->table('dl_user')->join($condition)->field($field)->where($map)->select();
-        return $data;
-    }
+//    public function getUserInfo($userId)
+//    {
+//        $map['user_id']=$userId;
+//        $condition=['dl_seller','dl_seller.seller_id=user_id'];
+//        $field=[
+//            'user_id',
+//            'user_nickname',
+//            'user_location',
+//            'seller_history',
+//            'user_is_seller',
+//            'user_is_verified',
+//            '_hide_detail'
+//        ];
+//        $data=$this->table('dl_user')->join($condition)->field($field)->where($map)->select();
+//        return $data;
+//    }
     /**
      * this returns given user's detail,second parameter decides query's result
      * @author ORIGIN
@@ -121,14 +135,14 @@ class User extends Model
      * @param boolean if you want HistoryOnly Mode
      * @return array query result
      */
-    public function getUserDetail($userId,$onlyHistory)
-    {
-        $map['user_id']=$userId;
-        if($onlyHistory) $field=['user_history'];
-        else $field=['user_realname','user_stu_id','user_history'];
-        $data=$this->table('dl_user_detail')->field($field)->where($map)->select();
-        return $data;
-    }
+//    public function getUserDetail($userId,$onlyHistory)
+//    {
+//        $map['user_id']=$userId;
+//        if($onlyHistory) $field=['user_history'];
+//        else $field=['user_realname','user_stu_id','user_history'];
+//        $data=$this->table('dl_user_detail')->field($field)->where($map)->select();
+//        return $data;
+//    }
     
     /**
      * when user apply to verify his account
@@ -136,30 +150,30 @@ class User extends Model
      * @param array user's input in form
      * @return int 0 for fault and 1 for success
      */
-    public function toVerify($infoList)
-    {
-        $data=[
-            'verify_user_id'=>$infoList['user_id'],
-            'verify_realname'=>$infoList['user_realname'],
-            'verify_stu_id'=>$infoList['user_stu_id']
-        ];
-        $r=$this->table('dl_user_vetify')->insert($data);
-        if($r)
-        {
-            $r=$this->table('dl_user')->where('user_id',$infoList['user_id'])->update(['user_is_verified'=>'1']);
-            return $r;
-        }
-        return $r;
-    }
+//    public function toVerify($infoList)
+//    {
+//        $data=[
+//            'verify_user_id'=>$infoList['user_id'],
+//            'verify_realname'=>$infoList['user_realname'],
+//            'verify_stu_id'=>$infoList['user_stu_id']
+//        ];
+//        $r=$this->table('dl_user_vetify')->insert($data);
+//        if($r)
+//        {
+//            $r=$this->table('dl_user')->where('user_id',$infoList['user_id'])->update(['user_is_verified'=>'1']);
+//            return $r;
+//        }
+//        return $r;
+//    }
     /**
      * when a user apply to be a seller
      * @author ORIGIN
      * @param int user's ID
      * @return int 0 for fault and 1 for success
      */
-    public function beSeller($userId)
-    {
-        $r=$this->table('dl_user')->where('user_id',$userId)->update(['user_is_seller'=>'1']);
-        return $r;
-    }
+//    public function beSeller($userId)
+//    {
+//        $r=$this->table('dl_user')->where('user_id',$userId)->update(['user_is_seller'=>'1']);
+//        return $r;
+//    }
 }

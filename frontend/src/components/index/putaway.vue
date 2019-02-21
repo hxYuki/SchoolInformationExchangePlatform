@@ -238,7 +238,7 @@ export default{
                 return false
               }else{
                 this.$message.success('发布成功')
-                window.location.hash="#/item?id="+d
+                window.location.hash="#/"+(this.itemForm.type==='sale?'?'item':'board')+"?id="+d
               }
             }
             // return true

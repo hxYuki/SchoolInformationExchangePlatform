@@ -13,40 +13,13 @@ class Comment extends Model
     public function getComments($sellerId)
     {
         $map=[
-            'comment_on_id'=>$sellerId,
+            'on_id'=>$sellerId,
             'is_del'=>0
         ];
         $comments=$this
-            ->table('dl_seller_comment')
+            ->table('sp_user_comments')
             ->where($map)
             ->select();
-
-        foreach ($comments as $k=>$v) {
-            //get username
-            $mmap=['user_id'=>$v['comment_from_id']];
-            $name=$this->table('dl_user')->field('user_nickname')->where($mmap)->find();
-            $comments[$k]['comment_one_name']=$name['user_nickname'];
-        
-        
-            //attach replys
-            if($v['comment_has_reply']==1)
-            {
-                $mmap=[
-                    'reply_on_id'=>$v['comment_id'],
-                    'is_del'=>0
-                ];
-                $replys=$this->table('dl_seller_comment_reply')->where($mmap)->select();
-
-                //get username
-                foreach ($replys as $key => $value) {
-                    $mmap=['user_id'=>$value['reply_from_id']];
-                    $name=$this->table('dl_user')->field('user_nickname')->where($mmap)->find();
-                    $replys[$key]['reply_one_name']=$name['user_nickname'];
-                }
-                $comments[$k]['replys']=$replys;
-            }
-            $comments[$k]['replys']=[];
-        }
 
         return $comments;
     }

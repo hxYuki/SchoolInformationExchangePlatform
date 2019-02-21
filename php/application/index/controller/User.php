@@ -64,4 +64,31 @@ class User extends Controller
         else
             return 'FAULT';
     }
+    public function getUser($type)
+    {
+        $req='';$res='';$ret='';
+        $req=$this->request->param('userId');
+        if(!$req) return 'no data';
+
+        switch ($type)
+        {
+            case 'seller':
+                $res=$this->model->getUserAsSeller($req);
+                if($res['user_comments']>0)
+                {
+                    $commentModel=model('Comment');
+                    $res['comments']=$commentModel->getComments($req);
+
+                    foreach ($res['comments'] as &$c) {//process anonymous user's comment
+                        if($c['is_anonymous']===1){
+                            unset($c['by_id']);
+                            $c['by_name']=substr_replace($c['by_name'],'*',1,-1);
+                        }
+                    }
+                }
+                break;
+        }
+
+        return json_encode($res);
+    }
 }

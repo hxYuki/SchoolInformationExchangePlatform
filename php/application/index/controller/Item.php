@@ -44,4 +44,19 @@ class Item extends Controller
         $res = $this->model->putItem($req);
         return $res;
     }
+    public function getItem()
+    {
+        $req='';$res='';$ret='';
+
+        $req=$this->request->param('itemId');
+        if(!$req) return 'no data';
+        
+        $res=$this->model->getItem($req);
+        $res['tags']=explode(',',$res['tags']);
+        $res['images']=explode(',',$res['images']);
+        
+        $ret=json_encode($res);
+        
+        return $ret;
+    }
 }

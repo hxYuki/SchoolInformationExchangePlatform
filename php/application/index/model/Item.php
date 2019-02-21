@@ -80,10 +80,10 @@ class Item extends Model
      */
     public function getItem($itemId)
     {
-        $map['item_id']=$itemId;
+        $map['id']=$itemId;$map['type']='sale';
 
         $data=
-        $this->table('dl_item')
+        $this->table('sp_item')
             ->where($map)
             ->find();
         return $data;
@@ -102,7 +102,8 @@ class Item extends Model
             'publisher_id'=>$infos['sellerId'],
             'images'=>$infos['imageCollects'],
             'tags'=>$infos['tagId'],
-            'price'=>$infos['price']
+            'price'=>$infos['price'],
+            'type'=>$infos['type']
         ];
 
         $r=$this->table('sp_item')

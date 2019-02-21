@@ -25,9 +25,11 @@ return [
     'checkRepetation'=>'index/user/checkRepetation',
     'userRegister'=>'index/user/register',
     'userLogin'=>'index/user/login',
+    'userGetAsSeller'=>'index/user/getUser?type=seller',
     'getTagSuggestion'=>'index/tags/getTags',
     'updateTagUse'=>'index/tags/updateTags',
     'putItem'=>'index/item/putItem',
+    'getItem'=>'index/item/getItem',
     '__miss__' => 'index/index/miss',
     'greet' => 'index/index/greet',
 ];
