@@ -30,6 +30,7 @@ return [
     'updateTagUse'=>'index/tags/updateTags',
     'putItem'=>'index/item/putItem',
     'getItem'=>'index/item/getItem',
+    'getItemList'=>'index/item/getList',
     '__miss__' => 'index/index/miss',
     'greet' => 'index/index/greet',
 ];

@@ -17,55 +17,41 @@ class Item extends Model
      * @param array of boolean if reverse all results
      * @return array array of items
      */
-    public function getList($page,$searchKeyWord=[],$order=["newest"],$reverse=[false])
+    public function getList($page,$searchKeyWord='',$order=[])
     {
         $map=[
             'is_del'=>0,
-            'is_sold'=>0
+            'is_outofdate'=>0,
+            'type'=>'sale'
         ];
         if($searchKeyWord)
-            foreach ($searchKeyWord as $key => $value)
-                $map[$key]=$value;
+            $map['title|tags']=['like','%'.$searchKeyWord.'%'];
+        
         
         $field=[
-            'item_id',
-            'item_name',
-            'item_description',
-            'item_seller_id',
-            'item_image',
-            'item_price',
-            'item_tag',
-            'item_puttime',
-            'item_views'
+            'id',
+            'title',
+            'description',
+            'publisher_id',
+            'images',
+            'price',
+            'tags',
+            'publish_time',
+            'view'
         ];
         $perPageNum=15;
-        $srchorder=[];
-        foreach ($order as $k => $v) {
-            switch ($v) {
-            case 'newest':
-                if(!$reverse[$k]) $srchorder['item_puttime']='desc';
-                else $srchorder['item_puttime']='asc';
-                break;
-            case 'hottest':
-                if(!$reverse[$k]) $srchorder['item_views']='desc';
-                else $srchorder['item_views']='asc';
-                break;
-            case 'cheapest':
-                if(!$reverse[$k]) $srchorder['item_price']='asc';
-                else $srchorder['item_price']='desc';
-                break;
-            default:
-                
-                break;
-            }
-        }
-        $list=$this
-            ->table('dl_item')
+
+        $list['list']=$this
+            ->table('sp_item')
             ->field($field)
             ->where($map)
             ->page($page,$perPageNum)
-            ->order($srchorder)
+            ->order($order)
             ->select();
+        $list['list_count']=$this
+            ->table('sp_item')
+            ->where($map)
+            ->count();
         return $list;
     }
     // public function getList($page,$searchMethod,)
@@ -81,11 +67,13 @@ class Item extends Model
     public function getItem($itemId)
     {
         $map['id']=$itemId;$map['type']='sale';
-
-        $data=
-        $this->table('sp_item')
+        
+        $this->table('sp_item')->where($map)->setInc('view');
+        $data=$this
+            ->table('sp_item')
             ->where($map)
             ->find();
+        
         return $data;
     }
     /**

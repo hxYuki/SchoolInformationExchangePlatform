@@ -59,4 +59,24 @@ class Item extends Controller
         
         return $ret;
     }
+    public function getList()
+    {
+        $req=$this->request->param('queryList');
+
+        if(!$req) return 'no data';
+        $req=json_decode($req,true);
+        $pageSrch=$req['page'];
+        $wordSrch="";
+        if (isset($req['keyword']))
+            $wordSrch=$req['keyword'];
+        unset($req['page']);unset($req['keyword']);
+        if(isset($req['time']))
+        {
+            $req['publish_time']=$req['time'];
+            unset($req['time']);
+        }
+        $res=$this->model->getList($pageSrch,$wordSrch,$req);
+
+        return json_encode($res);
+    }
 }
