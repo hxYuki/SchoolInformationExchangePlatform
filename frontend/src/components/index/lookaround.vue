@@ -81,7 +81,7 @@ import logo from './c/logo';
 import action from './c/action';
 import Axios from 'axios';
 
-export default {
+export default{
   components:{
     logo:logo,
     action:action
@@ -90,19 +90,15 @@ export default {
     return{
       restrictTree:[
         {
-          label:"location",
+          label:"位置",
           children:[
-            {label:"dongxiaoqu"},
-            {label:"beixiaoqu"},
-            {label:"xixiaoqu"}
+            {label:"获取失败"}
           ]
         },
         {
-          label:"class",
+          label:"热门标签",
           children:[
-            {label:"1"},
-            {label:"2"},
-            {label:"3"}
+            {label:"获取失败"}
           ]
         }
       ],
@@ -122,26 +118,26 @@ export default {
       this.$router.push({query:{page:this.page,search:this.searchKey}})
       this.fetchItemList()
     },
-    fetchItemList(){
-      let po={}
-      for (let key in this.orderCondition){
-        if(this.orderCondition[key]!=='unset')
-          po[key]=this.orderCondition[key]
+    fetchItemList: function () {
+      let po = {}
+      for (let key in this.orderCondition) {
+        if (this.orderCondition[key] !== 'unset')
+          po[key] = this.orderCondition[key]
       }
-      po.keyword=this.searchKey
-      po.page=this.page
+      po.keyword = this.searchKey
+      po.page = this.page
 
-      return Axios.post('getItemList',{queryList:JSON.stringify(po)}).then(res=>{
-        if(res.status===500){
+      return Axios.post('getItemList', {queryList: JSON.stringify(po)}).then(res => {
+        if (res.status === 500) {
           this.$message.error('服务器错误')
           return false
         }
-        if(res.status!==200){
+        if (res.status !== 200) {
           this.$message.error('网络错误')
           return false
         }
-        this.itemList=res.data.list
-        this.listCount=res.data.list_count
+        this.itemList = res.data.list
+        this.listCount = res.data.list_count
       })
     },
     switchOrder(type){
@@ -169,12 +165,32 @@ export default {
     changePage(val){
       this.page=val
       this.search()
+    },
+    getRestrict(){
+
+      Axios.post('fetchLocation').then(res=>{
+        let t=[]
+        for(let el in res.data){
+          t.push({label:res.data[el]})
+        }
+        this.restrictTree[0].children=t
+      })
+
+      Axios.post('getTagSuggestion').then(res=>{
+        let t=[]
+        for(let el in res.data){
+          t.push({label:res.data[el]})
+        }
+        this.restrictTree[1].children=t
+      })
     }
   },
   created(){
     let p=parseInt(this.$route.query.page)
     this.searchKey=this.$route.query.search
     this.page=p?p:1
+
+    this.getRestrict()
   },
   beforeMount(){
     this.fetchItemList()

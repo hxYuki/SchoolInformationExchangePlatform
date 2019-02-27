@@ -32,7 +32,9 @@ class Tags extends Controller
             $ret.=($value['tagname'].',');
         }
         $ret=mb_substr($ret,0,-1);
-        return $ret;
+
+        $ret=explode(',',$ret);
+        return json_encode($ret);
     }
     public function updateTags()
     {

@@ -171,7 +171,7 @@ export default{
     getTags(query=""){
       return Axios.post('getTagSuggestion',{'query':query}).then((res)=>{
         let tagArray=[]
-        let strA=res.data.split(',')
+        let strA=res.data
         let t={}
         strA.forEach(el => {
           t.value=el
