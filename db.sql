@@ -108,15 +108,17 @@ CREATE TABLE `sp_item` (
   `title` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `description` mediumtext COLLATE utf8_unicode_ci,
   `images` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `location` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '东校区,昌平校区,西校区',
   `tags` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
   `price` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `view` int(10) unsigned NOT NULL DEFAULT '0',
   `is_outofdate` tinyint(1) NOT NULL DEFAULT '0',
   `is_del` tinyint(1) NOT NULL DEFAULT '0',
   `type` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'sale',
+  `publish_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +127,7 @@ CREATE TABLE `sp_item` (
 
 LOCK TABLES `sp_item` WRITE;
 /*!40000 ALTER TABLE `sp_item` DISABLE KEYS */;
-INSERT INTO `sp_item` VALUES (1,1000000009,'高等数学（上）','','0','旧书,数学,高数','￥10',0,0,0,'sale'),(2,1000000009,'大学物理（上）','','0','旧书,大物,物理','￥10',0,0,0,'sale'),(3,1000000009,'大学物理实验','','0','旧书,物理,物理实验','￥9',0,0,0,'sale'),(4,1000000009,'收旧报纸','RT','0','收购,旧物,旧报纸','',0,0,0,'sale'),(5,1000000009,'出一双球鞋 全新','AJ 1','0','出售,鞋,球鞋','￥500',0,0,0,'sale'),(6,1000000009,'xxx网吧 车接车送','','0','广告,网吧,娱乐','',0,0,0,'sale'),(7,1000000009,'qweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(8,1000000009,'qweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(9,1000000009,'qweqweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(10,1000000009,'qweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(11,1000000009,'qweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(12,1000000009,'qwrqew','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(13,1000000009,'qweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(14,1000000009,'qweqweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(15,1000000009,'qweqweqwe','','0','旧书,数学,高数','qweqwe',0,0,0,'sale'),(16,1000000009,'qweqweqwe','','0','旧书,数学,高数','qweqwe',0,0,0,'sale'),(17,1000000009,'qweqweqwe','','0','数学,复习资料,物理','qwe',0,0,0,'sale'),(18,1000000009,'qweqweqweqw','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(19,1000000009,'qweqweqweq','','0','旧书,高数,数学','qwe',0,0,0,'sale'),(20,1000000009,'qweqweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(21,1000000009,'qweqweqweqwe','','0','旧书,数学,高数','qweq',0,0,0,'sale'),(22,1000000009,'qweqweqweqwe','','0','旧书,数学,复习资料','qwe',0,0,0,'sale'),(23,1000000009,'qweqweqweqw','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(24,1000000009,'qweqweqweqweqwe','','0','旧书,数学,高数','qwe',0,0,0,'sale'),(25,1000000009,'qweqweqwe','','0','物理,票子,大物','qwe',0,0,0,'sale'),(26,1000000009,'qweqweqwe','','0','物理,票子,大物','qwe',0,0,0,'sale'),(27,1000000009,'qweqweqweqwe','','0','票子,大物,物理实验','qwe',0,0,0,'sale'),(28,1000000009,'qweqwe','','0','票子,大物,复习资料','qwe',0,0,0,'sale'),(29,1000000009,'qweqweqw','','0','数学,高数,旧书','qwe',0,0,0,'sale'),(30,1000000009,'caoni','','0','票子,大物,数学','qweasd',0,0,0,'sale'),(31,1000000009,'qweqweqweqwe','','0','数学,旧书,复习资料','qweqwe',0,0,0,'sale');
+INSERT INTO `sp_item` VALUES (1,1000000009,'高等数学（上）','','0','东校区,昌平校区,西校区','旧书,数学,高数','￥10',0,0,0,'sale','2019-02-23 06:25:35'),(2,1000000009,'大学物理（上）','','0','东校区,昌平校区,西校区','旧书,大物,物理','￥10',0,0,0,'sale','2019-02-23 06:25:35'),(3,1000000009,'大学物理实验','','0','东校区,昌平校区,西校区','旧书,物理,物理实验','￥9',0,0,0,'sale','2019-02-23 06:25:35'),(4,1000000009,'收旧报纸','RT','0','东校区,昌平校区,西校区','收购,旧物,旧报纸','',0,0,0,'sale','2019-02-23 06:25:35'),(5,1000000009,'出一双球鞋 全新','AJ 1','0','东校区,昌平校区,西校区','出售,鞋,球鞋','￥500',0,0,0,'sale','2019-02-23 06:25:35'),(6,1000000009,'xxx网吧 车接车送','','0','东校区,昌平校区,西校区','广告,网吧,娱乐','',0,0,0,'sale','2019-02-23 06:25:35'),(7,1000000009,'qweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(8,1000000009,'qweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(9,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(10,1000000009,'qweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(11,1000000009,'qweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(12,1000000009,'qwrqew','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(13,1000000009,'qweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(14,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(15,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qweqwe',0,0,0,'sale','2019-02-23 06:25:35'),(16,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qweqwe',0,0,0,'sale','2019-02-23 06:25:35'),(17,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','数学,复习资料,物理','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(18,1000000009,'qweqweqweqw','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(19,1000000009,'qweqweqweq','','0','东校区,昌平校区,西校区','旧书,高数,数学','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(20,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(21,1000000009,'qweqweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qweq',0,0,0,'sale','2019-02-23 06:25:35'),(22,1000000009,'qweqweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,复习资料','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(23,1000000009,'qweqweqweqw','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(24,1000000009,'qweqweqweqweqwe','','0','东校区,昌平校区,西校区','旧书,数学,高数','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(25,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','物理,票子,大物','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(26,1000000009,'qweqweqwe','','0','东校区,昌平校区,西校区','物理,票子,大物','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(27,1000000009,'qweqweqweqwe','','0','东校区,昌平校区,西校区','票子,大物,物理实验','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(28,1000000009,'qweqwe','','0','东校区,昌平校区,西校区','票子,大物,复习资料','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(29,1000000009,'qweqweqw','','0','东校区,昌平校区,西校区','数学,高数,旧书','qwe',0,0,0,'sale','2019-02-23 06:25:35'),(30,1000000009,'caoni','','0','东校区,昌平校区,西校区','票子,大物,数学','qweasd',0,0,0,'sale','2019-02-23 06:25:35'),(31,1000000009,'qweqweqweqwe','','0','东校区,昌平校区,西校区','数学,旧书,复习资料','qweqwe',0,0,0,'sale','2019-02-23 06:25:35'),(32,1000000009,'装逼培训班招生啦','￥20 每月，带人更有优惠','0','东校区,昌平校区,西校区','培训班,装逼,招生','',0,0,0,'sale','2019-02-23 06:25:35'),(33,1000000009,'test','test','0','东校区,昌平校区,西校区','旧书,数学,高数','',0,0,0,'message','2019-02-23 06:25:35');
 /*!40000 ALTER TABLE `sp_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +144,7 @@ CREATE TABLE `sp_item_tag` (
   `use` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +153,7 @@ CREATE TABLE `sp_item_tag` (
 
 LOCK TABLES `sp_item_tag` WRITE;
 /*!40000 ALTER TABLE `sp_item_tag` DISABLE KEYS */;
-INSERT INTO `sp_item_tag` VALUES (1,'旧书',58),(2,'复习资料',13),(3,'票子',6),(4,'数学',35),(5,'高数',31),(6,'大物',6),(7,'物理',5),(8,'物理实验',2),(9,'收购',1),(10,'旧物',1),(11,'旧报纸',1),(12,'出售',1),(13,'鞋',1),(14,'球鞋',1),(15,'广告',1),(16,'网吧',1),(17,'娱乐',1);
+INSERT INTO `sp_item_tag` VALUES (1,'旧书',59),(2,'复习资料',13),(3,'票子',6),(4,'数学',36),(5,'高数',32),(6,'大物',6),(7,'物理',5),(8,'物理实验',2),(9,'收购',1),(10,'旧物',1),(11,'旧报纸',1),(12,'出售',1),(13,'鞋',1),(14,'球鞋',1),(15,'广告',1),(16,'网吧',1),(17,'娱乐',1),(18,'培训班',2),(19,'装逼',2),(20,'招生',2);
 /*!40000 ALTER TABLE `sp_item_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,11 +236,13 @@ DROP TABLE IF EXISTS `sp_user_comments`;
 CREATE TABLE `sp_user_comments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `on_id` mediumint(10) unsigned NOT NULL,
+  `under_id` int(10) NOT NULL,
   `by_id` mediumint(10) unsigned NOT NULL,
   `by_name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `comment` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mark` float NOT NULL,
   `is_anonymous` tinyint(1) NOT NULL DEFAULT '1',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`on_id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -291,4 +295,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-16 11:57:46
+-- Dump completed on 2019-02-27 16:48:30
