@@ -33,7 +33,7 @@
             <div slot="header">
               <el-row>
                 <el-col :span="10">
-                  <el-input v-model="searchKey" placeholder="搜索" @keyup.enter.native="search()" clearable>
+                  <el-input v-model="searchKey" placeholder="搜索" @keyup.enter.native="search()" clearable autofocus>
                     <el-button slot="append" icon="el-icon-search" @click="search()"></el-button>
                   </el-input>
                 </el-col>
