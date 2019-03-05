@@ -9,7 +9,9 @@ Rebuild of the previous project (ItsDeal)
   In the directory `/frontend` run `npm install` to install all dependancy
   
   In the directory `/php` , with Composer you may do the installation easily
+  
   and without Composer, you need add the following files manually
+  
   > - thinkphp 文件夹及其所有内容
   > - composer.lock
   > - application/database.php
