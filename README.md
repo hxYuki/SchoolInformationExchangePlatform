@@ -20,7 +20,8 @@ Rebuild of the previous project (ItsDeal)
 
 ## [TODO list][1]
   Password: `siep`
-
+  
+  Pleasure for supplement
 
 
 
