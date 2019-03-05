@@ -36,6 +36,18 @@ class Tags extends Controller
         $ret=explode(',',$ret);
         return json_encode($ret);
     }
+
+    public function getAllTags()
+    {
+        $ret='';
+        $res=$this->model->getAllTags();
+        foreach ($res as $key => $value) {
+            $ret.=($value['tagname'].',');
+        }
+        $ret=mb_substr($ret,0,-1);
+        $ret=explode(',',$ret);
+        return json_encode($ret);
+    }
     public function updateTags()
     {
         $res=0;$req='';$ret=0;

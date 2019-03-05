@@ -21,8 +21,14 @@
               <span>筛选</span>
               <el-button style="float: right; padding: 3px 0" circle type="text" icon="el-icon-circle-close-outline" @click="clearTypeCondition()"></el-button>
             </div>
-            <el-tree 
+            <el-tree
+              ref="restrictTree"
               :data="restrictTree"
+              node-key="label"
+              :default-expanded-keys="['位置','热门标签']"
+              :default-checked-keys="['位置']"
+              @node-expand="expandTree"
+              @check="checkTree"
               show-checkbox
               check-on-click-node>
             </el-tree>
@@ -92,16 +98,23 @@ export default{
         {
           label:"位置",
           children:[
-            {label:"获取失败"}
+            {label:"获取失败",disabled:true}
           ]
         },
         {
           label:"热门标签",
           children:[
-            {label:"获取失败"}
+            {label:"获取失败",disabled:true}
+          ]
+        },
+        {
+          label:"标签",
+          children:[
+            {label:"获取失败",disabled:true}
           ]
         }
       ],
+      checkedCondition:[],
       itemList:[],
       listCount:0,
       searchKey:"",
@@ -138,7 +151,7 @@ export default{
         }
         this.itemList = res.data.list
         this.listCount = res.data.list_count
-      })
+      }).catch((err)=>{console.log(err)}) //TODO: get this in package of axios
     },
     switchOrder(type){
       switch (this.orderCondition[type]) {
@@ -183,7 +196,26 @@ export default{
         }
         this.restrictTree[1].children=t
       })
-    }
+    },
+    lazyGetRestrict(){
+      Axios.post('getAllTags').then(res=>{
+        let t=[]
+        for(let el in res.data){
+          t.push({label:res.data[el]})
+        }
+        this.restrictTree[2].children=t
+      })
+    },
+    expandTree(nodeObj){
+      if(nodeObj.label==='标签')
+        this.lazyGetRestrict()
+    },
+    checkTree(nodeObj,nodeObj2){
+      console.log(nodeObj)
+      console.log(nodeObj2)
+      // this.checkedCondition.push()
+      this.$refs['restrictTree'].setCheckedKeys(nodeObj2.checkedKeys,true)
+    }, 
   },
   created(){
     let p=parseInt(this.$route.query.page)

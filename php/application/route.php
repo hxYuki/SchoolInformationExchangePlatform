@@ -27,6 +27,7 @@ return [
     'userLogin'=>'index/user/login',
     'userGetAsSeller'=>'index/user/getUser?type=seller',
     'getTagSuggestion'=>'index/tags/getTags',
+    'getAllTags'=>'index/tags/getAllTags',
     'updateTagUse'=>'index/tags/updateTags',
     'putItem'=>'index/item/putItem',
     'getItem'=>'index/item/getItem',
